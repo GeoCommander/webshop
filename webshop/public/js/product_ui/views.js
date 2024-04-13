@@ -442,7 +442,7 @@ webshop.ProductView =  class {
 			}
 			});
 		}, 300));
-		
+	}	
 	// 	$('.filter-lookup-input').on('keydown', frappe.utils.debounce((e) => {
 	// 		const $input = $(e.target);
 	// 		const keyword = ($input.val() || '').toLowerCase();
