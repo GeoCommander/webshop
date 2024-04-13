@@ -420,21 +420,44 @@ webshop.ProductView =  class {
 		});
 
 		// bind filter lookup input box
-		$('.filter-lookup-input').on('keydown', frappe.utils.debounce((e) => {
+		$('.filter-lookup-input').on('input', frappe.utils.debounce((e) => {
 			const $input = $(e.target);
-			const keyword = ($input.val() || '').toLowerCase();
+			const keyword = ($input.val() || '').toString().toLowerCase();
 			const $filter_options = $input.next('.filter-options');
 
 			$filter_options.find('.filter-lookup-wrapper').show();
 			$filter_options.find('.filter-lookup-wrapper').each((i, el) => {
-				const $el = $(el);
-				const value = $el.data('value').toLowerCase();
-				if (!value.includes(keyword)) {
-					$el.hide();
-				}
+			const $el = $(el);
+			let value = $el.data('value').toString();
+
+			// This will check if the value is a number and format it with a fixed decimal place if necessary
+			if ($.isNumeric(value)) {
+				value = parseFloat(value).toFixed(2); // Adjust decimal places as needed
+			}
+
+			value = value.toLowerCase();
+
+			if (!value.includes(keyword)) {
+				$el.hide();
+			}
 			});
 		}, 300));
-	}
+		
+	// 	$('.filter-lookup-input').on('keydown', frappe.utils.debounce((e) => {
+	// 		const $input = $(e.target);
+	// 		const keyword = ($input.val() || '').toLowerCase();
+	// 		const $filter_options = $input.next('.filter-options');
+
+	// 		$filter_options.find('.filter-lookup-wrapper').show();
+	// 		$filter_options.find('.filter-lookup-wrapper').each((i, el) => {
+	// 			const $el = $(el);
+	// 			const value = $el.data('value').toLowerCase();
+	// 			if (!value.includes(keyword)) {
+	// 				$el.hide();
+	// 			}
+	// 		});
+	// 	}, 300));
+	// }
 
 	change_route_with_filters() {
 		let route_params = frappe.utils.get_query_params();
